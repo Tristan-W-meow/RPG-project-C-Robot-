@@ -2,46 +2,54 @@
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using System.Xml.Linq;
 namespace RPG
 {
     internal class Program
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Welcome to the RPG Game! Giving a preemptive warning for some body horror and possibly eldritch horror themes so you have been warned. \n Type \"STOP\" if you ever want to exit the program. \n Type \"START\" to begin the game, or if you want to start a new game");
+            Console.WriteLine("Welcome to the RPG Game! Giving a preemptive warning for some body horror and possibly eldritch horror" +
+                " themes so you have been warned. \n Type \"STOP\" if you ever want to exit the program." +
+                " \n Type \"START\" to begin the game, or if you want to start a new game");
 
+            UserInput.GetInputDefault();
 
             Intro.DisplayIntro();
-            Character hero = new Character("Archer", 1, 100);
-         
 
-            Console.WriteLine($"Character Created: {hero.Name}, Level: {hero.Level}, Health: {hero.Health}");
-
-            Console.WriteLine();
         }
     }
     public class Character
+        // base stats for characters
     {
         public string Name { get; set; }
-        public int Level { get; set; }
-        public int Health { get; set; }
-        public Character(string name, int level, int health)
+        public float Health { get; set; }
+        public float Strength { get; set; }
+        public float Resilience { get; set; }
+        public float Agility { get; set; }
+        public float Speed { get; set; }
+        public float Power_generation { get; set; }
+        public float Power { get; set; }
+        public float Processing_power { get; set; }
+        public float Encryption { get; set; }
+        public Character(float strength, float resilience, float agility, float speed, float power_generation,
+            float power, float processing_power, float encryption, string name, float health)
         {
+            Strength = strength;
+            Resilience = resilience;
+            Agility = agility;
+            Speed = speed;
+            Power_generation = power_generation;
+            Power = power;
+            Processing_power = processing_power;
+            Encryption = encryption;
             Name = name;
-            Level = level;
             Health = health;
         }
-
-
-        public void Attack(Character target)
-        {
-            Console.WriteLine($"{Name} attacks {target.Name}!");
-            // Simple attack logic
-            target.Health -= 10;
-            Console.WriteLine($"{target.Name} has {target.Health} health remaining.");
-        }
+    
     }
     public class Inventory
+        // currently unusued and all code within is placeholder code that may be semi functional
     {
         public List<string> Items { get; set; }
         public Inventory()
@@ -70,31 +78,9 @@ namespace RPG
     
     
     }
-
-    public class Stats
-    {
-        public float Strength { get; set; }
-        public float Resilience { get; set; }
-        public float Agility { get; set; }
-        public float Speed { get; set; }
-        public float Power_generation { get; set; }
-        public float Power { get; set; }
-        public float Processing_power { get; set; }
-        public float Encryption { get; set; }
-        public  Stats(float strength, float resilience, float agility, float speed, float power_generation, float power, float processing_power, float encryption)
-        {
-            Strength = strength;
-            Resilience = resilience;
-            Agility = agility;
-            Speed = speed;
-            Power_generation = power_generation;
-            Power = power;
-            Processing_power = processing_power;
-            Encryption = encryption;
-        }
-
-    }
     public class Component
+    // bases stats for components. Components and their stats will affect player and enemy stats.
+    // Components will hopefully be defined here each as individual methods
     {
         public string ComponentName { get; set; }
         public float Structure { get; set; }
@@ -121,6 +107,7 @@ namespace RPG
         {
             Component swordArm = new Component("Sword Arm", 100, 1, 90, 20, 15, 5, 3);
         }
+        // It's not there yet but the end goal is to have a component defined along with an associated action.
 
 
         public void DisplayInfo()
@@ -177,23 +164,10 @@ namespace RPG
         }
         public static void StartCombat(Character player, Character enemy)
         {
-            Console.WriteLine($"A wild {enemy.Name} appears!");
-            while (player.Health > 0 && enemy.Health > 0)
-            {
-                player.Attack(enemy);
-                if (enemy.Health <= 0)
-                {
-                    Console.WriteLine($"{enemy.Name} has been defeated!");
-                    break;
-                }
-                enemy.Attack(player);
-                if (player.Health <= 0)
-                {
-                    Console.WriteLine($"{player.Name} has been defeated!");
-                    break;
-                }
-            }
+            
         }
+
+        public static void 
         public int CombatTime(int Time, int Speed)
         {
             while (Time <100)
